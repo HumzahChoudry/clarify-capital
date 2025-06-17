@@ -11,9 +11,25 @@
   </head>
 
   <body>
-    <% flash.each do |type, message| %>
-      <div class="flash <%= type %>"><%= message %></div>
-    <% end %>
-    <%= yield %>
+    <div class="app-container">
+      <% flash.each do |type, message| %>
+        <div class="flash <%= type %>"><%= message %></div>
+      <% end %>
+
+      <nav class="main-nav">
+        <ul class="nav-tabs">
+          <li class="nav-tab <%= 'active' if current_page?(clients_path) || current_page?(root_path) %>">
+            <%= link_to "Clients", clients_path %>
+          </li>
+          <li class="nav-tab <%= 'active' if current_page?(lenders_path) %>">
+            <%= link_to "Lenders", lenders_path %>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="page-content">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
