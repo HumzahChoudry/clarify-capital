@@ -1,0 +1,24 @@
+<h1><%= @lender.name %></h1>
+
+<p>
+  <strong>Minimum Loan Amount</strong><br>
+  <%= display_currency_or_na(@lender.minimum_loan_amount) %>
+</p>
+
+<p>
+  <strong>Maximum Loan Amount</strong><br>
+  <%= display_currency_or_na(@lender.maximum_loan_amount) %>
+</p>
+
+<p>
+  <strong>Interest Rate</strong><br>
+  <%= display_percentage_or_na(@lender.interest_rate) %>
+</p>
+
+<p>
+  <strong>Minimum Credit Score</strong><br>
+  <%= display_or_na(@lender.minimum_credit_score) %>
+</p>
+
+<p><%= link_to "Edit #{@lender.name}", edit_lender_path(@lender) %></p>
+<p><%= link_to 'Back to Lenders', lenders_path %></p>
