@@ -1,7 +1,11 @@
-<h1>Clients</h1>
-<%= link_to 'New Client', new_client_path %>
+<div class="page-header">
+  <h1 class="page-title">Clients</h1>
+  <div class="page-actions">
+    <%= link_to 'Create New Client', new_client_path, class: 'btn-primary' %>
+  </div>
+</div>
 
-<table>
+<table class="table-cards">
   <thead>
     <tr>
       <th>Name</th>
@@ -15,13 +19,12 @@
   <tbody>
     <% @clients.each do |client| %>
       <tr>
-        <td><%= link_to client.name, client %></td>
-        <td><%= client.email %></td>
-        <td><%= display_or_na(client.phone) %></td>
-        <td><%= display_or_na(client.credit_score) %></td>
-        <td>
-          <%= link_to 'Edit', edit_client_path(client) %>
-          <%= link_to 'Delete', client, method: :delete, data: {confirm: 'Are you sure?'} %>
+        <td data-label="Name"><%= link_to client.name, client %></td>
+        <td data-label="Email"><%= client.email %></td>
+        <td data-label="Phone"><%= display_or_na(client.phone) %></td>
+        <td data-label="Credit Score"><%= display_or_na(client.credit_score) %></td>
+        <td data-label="Actions">
+          <%= link_to 'Delete', client, method: :delete, class: "btn-secondary", data: {confirm: 'Are you sure?'} %>
         </td>
       </tr>
     <% end %>

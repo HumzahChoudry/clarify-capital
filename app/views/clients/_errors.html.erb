@@ -1,0 +1,13 @@
+  <% if @client.errors.any? %>
+    <div class="flash alert">
+      <h4>
+        <%= pluralize(@client.errors.count, 'error') %> 
+        prohibited the client from saving: 
+      </h4>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+        <% @client.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
