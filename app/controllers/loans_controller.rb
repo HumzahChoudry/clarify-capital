@@ -1,0 +1,67 @@
+class LoansController < ApplicationController
+  before_action :set_loan, only: %i[edit update]
+  before_action :set_parent_entities, only: %i[new create edit update]
+  before_action :filter_loan_candidates, only: %i[new edit]
+
+  def new
+    @loan ||= Loan.new
+    @loan.client_id ||= @client&.id
+    @loan.lender_id ||= @lender&.id
+  end
+
+  def create
+    @loan = Loan.new(loan_params)
+    if @loan.save
+      redirect_to client_path(@loan.client_id), notice: 'Loan created.'
+    else
+      filter_loan_candidates
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit; end
+
+  def update
+    if @loan.pending?
+      if @loan.update(loan_params)
+        redirect_to client_path(@loan.client_id), notice: 'Loan updated.'
+      else
+        filter_loan_candidates
+        render :edit, status: :unprocessable_entity
+      end
+    else
+      if @loan.update(loan_params.slice(:status))
+        redirect_to client_path(@loan.client_id), notice: 'Loan status updated.'
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+  end
+
+  private
+
+  def set_loan
+    @loan = Loan.find(params[:id])
+  end
+
+  def set_parent_entities
+    @client = Client.find(params[:client_id]) if params[:client_id]
+    @lender = Lender.find(params[:lender_id]) if params[:lender_id]
+  end
+
+  def filter_loan_candidates
+    if @client
+      credit = @client.credit_score || 300
+      @eligible_lenders = Lender.where("minimum_credit_score <= ?", credit)
+    elsif @lender
+      @eligible_clients = Client.where("credit_score >= ?", @lender.minimum_credit_score)
+    else
+      @eligible_clients = Client.all
+      @eligible_lenders = Lender.all
+    end
+  end
+
+  def loan_params
+    params.require(:loan).permit(:client_id, :lender_id, :amount, :status)
+  end
+end

@@ -1,0 +1,47 @@
+<%= form_with model: loan, local: true do |f| %>
+  <% if loan.client.present? %>
+    <%= f.hidden_field :client_id %>
+    <p><strong>Client:</strong> <%= loan.client.name %></p>
+  <% else %>
+    <div class="field">
+      <%= f.label :client_id, "Client" %>
+      <%= f.collection_select :client_id, @eligible_clients, :id, :name, prompt: true %>
+    </div>
+  <% end %>
+
+  <% if loan.lender.present? %>
+    <%= f.hidden_field :lender_id %>
+    <p><strong>Lender:</strong> <%= loan.lender.name %> (APR: <%= loan.lender.interest_rate %>%)</p>
+  <% else %>
+    <div class="field">
+      <%= f.label :lender_id, "Lender" %>
+      <%= f.collection_select :lender_id, @eligible_lenders, :id, ->(l) {
+        "#{l.name} (#{l.interest_rate}% APR, min score: #{l.minimum_credit_score})"
+      }, prompt: true %>
+    </div>
+  <% end %>
+
+  <% min = loan.lender&.minimum_loan_amount || 1000 %>
+  <% max = loan.lender&.maximum_loan_amount || 50000 %>
+
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.number_field :amount, step: 100, min: min, max: max, disabled: !loan.pending? %>
+
+    <% if loan.lender.present? && (loan.new_record? || loan.pending?) %>
+      <p class="note">
+        Allowed range for <strong><%= loan.lender.name %></strong>: 
+        <%= number_to_currency(min) %> – <%= number_to_currency(max) %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.select :status, Loan.statuses.keys.map { |s| [s.titleize, s] } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

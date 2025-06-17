@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :clients
   resources :lenders
+  resources :loans, only: [:new, :create, :edit, :update]
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
