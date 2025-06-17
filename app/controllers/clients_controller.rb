@@ -2,7 +2,7 @@ class ClientsController < ApplicationController
   before_action :set_client, only: %i[show edit update destroy create_best_loan]
 
   def index
-    @clients = Client.order(:name)
+    @pagy, @clients = pagy(Client.order(:name), items: 20)
   end
 
   def show

@@ -2,7 +2,7 @@ class LendersController < ApplicationController
   before_action :set_lender, only: %i[show edit update destroy]
 
   def index
-    @lenders = Lender.all.order(:name)
+    @pagy, @lenders = pagy(Lender.all.order(:name), items: 20)
   end
 
   def show

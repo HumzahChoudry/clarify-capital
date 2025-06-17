@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
   def display_or_na(value)
     value.present? ? value : "N/A"
   end
