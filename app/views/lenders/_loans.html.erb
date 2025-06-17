@@ -1,0 +1,39 @@
+<div class="loans-section">
+  <h2>Loans Issued by <%= @lender.name %></h2>
+  
+  <% if @loans.any? %>
+    <div class="loans-table">
+      <table class="table-cards">
+        <thead>
+          <tr>
+            <th>Amount</th>
+            <th>Client</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @loans.each do |loan| %>
+            <tr>
+              <td data-label="Amount"><%= number_to_currency(loan.amount) %></td>
+              <td data-label="Client"><%= link_to loan.client.name, client_path(loan.client) %></td>
+              <td data-label="Status">
+                <span class="status-badge status-<%= loan.status.downcase %>">
+                  <%= loan.status.titleize %>
+                </span>
+              </td>
+              <td data-label="Actions">
+                <%= link_to "Edit", edit_loan_path(loan), class: "btn-secondary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <p>No loans issued by this lender.</p>
+      <%= link_to "Create First Loan", new_loan_path(lender_id: @lender.id), class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>

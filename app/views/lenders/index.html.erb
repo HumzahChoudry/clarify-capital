@@ -1,31 +1,24 @@
-<h1>Lenders</h1>
+<div class="page-header">
+  <h1 class="page-title">Lenders</h1>
+  <div class="page-actions">
+    <%= link_to 'Create New Lender', new_lender_path, class: 'btn-primary' %>
+  </div>
+</div>
 
-<table>
+<table class="table-cards">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Min Loan Amount</th>
-      <th>Max Loan Amount</th>
+      <th>Loan Range</th>
       <th>Interest Rate</th>
       <th>Min Credit Score</th>
-      <th></th>
-      <th></th>
+      <th>Actions</th>
     </tr>
   </thead>
 
   <tbody>
     <% @lenders.each do |lender| %>
-      <tr>
-        <td><%= display_or_na(lender.name) %></td>
-        <td><%= display_currency_or_na(lender.minimum_loan_amount) %></td>
-        <td><%= display_currency_or_na(lender.maximum_loan_amount) %></td>
-        <td><%= display_percentage_or_na(lender.interest_rate) %></td>
-        <td><%= display_or_na(lender.minimum_credit_score) %></td>
-        <td><%= link_to 'Show', lender_path(lender) %></td>
-        <td><%= link_to 'Edit', edit_lender_path(lender) %></td>
-      </tr>
+      <%= render "index_table_row", lender: lender %>
     <% end %>
   </tbody>
 </table>
-
-<p><%= link_to 'New Lender', new_lender_path %></p>

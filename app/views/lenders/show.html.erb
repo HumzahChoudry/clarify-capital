@@ -1,42 +1,33 @@
-<h1><%= @lender.name %></h1>
+<div class="page-header">
+  <h1 class="page-title"><%= @lender.name %></h1>
+  <div class="page-actions">
+    <%= link_to "Edit Lender", edit_lender_path(@lender), class: "btn-primary" %>
+    <%= link_to "Create Loan", new_loan_path(lender_id: @lender.id), class: "btn-primary" %>
+  </div>
+</div>
 
-<p>
-  <strong>Minimum Loan Amount</strong><br>
-  <%= display_currency_or_na(@lender.minimum_loan_amount) %>
-</p>
+<div class="client-info-card">
+  <h3>Lender Information</h3>
+  <div class="info-grid">
+    <div class="info-item">
+      <strong>Minimum Loan Amount:</strong>
+      <span><%= display_currency_or_na(@lender.minimum_loan_amount) %></span>
+    </div>
+    <div class="info-item">
+      <strong>Maximum Loan Amount:</strong>
+      <span><%= display_currency_or_na(@lender.maximum_loan_amount) %></span>
+    </div>
+    <div class="info-item">
+      <strong>Interest Rate:</strong>
+      <span class="<%= @lender.interest_rate ? 'credit-score' : '' %>">
+        <%= display_percentage_or_na(@lender.interest_rate) %>
+      </span>
+    </div>
+    <div class="info-item">
+      <strong>Minimum Credit Score:</strong>
+      <span><%= display_or_na(@lender.minimum_credit_score) %></span>
+    </div>
+  </div>
+</div>
 
-<p>
-  <strong>Maximum Loan Amount</strong><br>
-  <%= display_currency_or_na(@lender.maximum_loan_amount) %>
-</p>
-
-<p>
-  <strong>Interest Rate</strong><br>
-  <%= display_percentage_or_na(@lender.interest_rate) %>
-</p>
-
-<p>
-  <strong>Minimum Credit Score</strong><br>
-  <%= display_or_na(@lender.minimum_credit_score) %>
-</p>
-
-<% if @loans.any? %>
-  <h2>Loans Issued by <%= @lender.name %></h2>
-  <ul>
-    <% @loans.each do |loan| %>
-      <li>
-        Amount: <%= number_to_currency(loan.amount) %> |
-        Client: <%= link_to loan.client.name, client_path(loan.client) %> |
-        Status: <%= loan.status.titleize %> |
-        <%= link_to "Edit", edit_loan_path(loan) %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No loans issued by this lender.</p>
-<% end %>
-
-
-<p><%= link_to "Edit #{@lender.name}", edit_lender_path(@lender) %></p>
-<p><%= link_to "Create Loan from #{@lender.name}", new_loan_path(lender_id: @lender.id) %></p>
-<p><%= link_to 'Back to Lenders', lenders_path %></p>
+<%= render "loans" %>
