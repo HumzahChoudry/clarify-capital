@@ -1,34 +1,57 @@
 <h1><%= @client.name %></h1>
 
 <p>
-  <strong>Email</strong>
+  <strong>Email:</strong>
   <%= @client.email %>
 </p>
 
 <p>
-  <strong>Phone</strong>
+  <strong>Phone:</strong>
   <%= display_or_na(@client.phone) %>
 </p>
 
 <p>
-  <strong>Credit Score</strong>
+  <strong>Credit Score:</strong>
   <%= display_or_na(@client.credit_score) %>
 </p>
 
 <% if @loans.any? %>
   <h2>Loans for <%= @client.name %></h2>
-  <ul>
-    <% @loans.each do |loan| %>
-      <li>
-        Amount: <%= number_to_currency(loan.amount) %> |
-        Lender: <%= link_to loan.lender.name, lender_path(loan.lender) %> |
-        Status: <%= loan.status.titleize %> |
-        <%= link_to "Edit", edit_loan_path(loan) %>
-      </li>
-    <% end %>
-  </ul>
+  <table class="loans-table">
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Lender</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @loans.each do |loan| %>
+        <tr>
+          <td><%= number_to_currency(loan.amount) %></td>
+          <td><%= link_to loan.lender.name, lender_path(loan.lender) %></td>
+          <td><%= loan.status.titleize %></td>
+          <td><%= link_to "Edit", edit_loan_path(loan) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <p>No loans found for this client.</p>
+<% end %>
+
+<h2>Find Best Loan</h2>
+
+<%= form_with url: create_best_loan_client_path(@client), method: :post, local: true do |f| %>
+  <div class="field">
+    <%= f.label :amount, "Desired Loan Amount" %>
+    <%= f.number_field :amount, required: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create Best Loan" %>
+  </div>
 <% end %>
 
 <p><%= link_to "Edit #{@client.name}", edit_client_path(@client) %></p>
