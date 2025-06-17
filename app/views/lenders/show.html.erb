@@ -20,5 +20,23 @@
   <%= display_or_na(@lender.minimum_credit_score) %>
 </p>
 
+<% if @loans.any? %>
+  <h2>Loans Issued by <%= @lender.name %></h2>
+  <ul>
+    <% @loans.each do |loan| %>
+      <li>
+        Amount: <%= number_to_currency(loan.amount) %> |
+        Client: <%= link_to loan.client.name, client_path(loan.client) %> |
+        Status: <%= loan.status.titleize %> |
+        <%= link_to "Edit", edit_loan_path(loan) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No loans issued by this lender.</p>
+<% end %>
+
+
 <p><%= link_to "Edit #{@lender.name}", edit_lender_path(@lender) %></p>
+<p><%= link_to "Create Loan from #{@lender.name}", new_loan_path(lender_id: @lender.id) %></p>
 <p><%= link_to 'Back to Lenders', lenders_path %></p>

@@ -15,5 +15,22 @@
   <%= display_or_na(@client.credit_score) %>
 </p>
 
+<% if @loans.any? %>
+  <h2>Loans for <%= @client.name %></h2>
+  <ul>
+    <% @loans.each do |loan| %>
+      <li>
+        Amount: <%= number_to_currency(loan.amount) %> |
+        Lender: <%= link_to loan.lender.name, lender_path(loan.lender) %> |
+        Status: <%= loan.status.titleize %> |
+        <%= link_to "Edit", edit_loan_path(loan) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No loans found for this client.</p>
+<% end %>
+
 <p><%= link_to "Edit #{@client.name}", edit_client_path(@client) %></p>
+<p><%= link_to "Create Loan for #{@client.name}", new_loan_path(client_id: @client.id) %></p>
 <p><%= link_to 'Back to Clients', clients_path %></p>

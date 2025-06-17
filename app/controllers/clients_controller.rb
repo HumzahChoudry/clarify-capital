@@ -4,7 +4,9 @@ class ClientsController < ApplicationController
     @clients = Client.all.order(:name)
   end
 
-  def show; end
+  def show
+    @loans = @client.loans.includes(:lender).order(created_at: :desc)
+  end
 
   def new
     @client = Client.new
