@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :clients
+  resources :clients do
+    member do
+      post :create_best_loan
+    end
+  end
   resources :lenders
   resources :loans, only: [:new, :create, :edit, :update]
 

@@ -1,7 +1,8 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: %i[show edit update destroy]
+  before_action :set_client, only: %i[show edit update destroy create_best_loan]
+
   def index
-    @clients = Client.all.order(:name)
+    @clients = Client.order(:name)
   end
 
   def show
@@ -24,7 +25,7 @@ class ClientsController < ApplicationController
   def edit; end
 
   def update 
-    if @client.update(client_params) 
+    if @client.update(client_params)
       redirect_to @client, notice: 'Client updated.'
     else 
       render :edit, status: :unprocessable_entity
@@ -32,16 +33,27 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-    @client.destroy 
+    @client.destroy
     redirect_to clients_path, notice: 'Client deleted.'
   end
 
+  # POST /clients/:id/create_best_loan
+  def create_best_loan
+    amount = params[:amount].to_f
+    result = Clients::BestLoanCreator.new(client: @client, amount: amount).call
+
+    return redirect_to @client, notice: "Best loan created!" if result[:success]
+
+    redirect_to @client, alert: result[:error] || "Unable to create loan."
+  end
+
   private
+
   def set_client
     @client = Client.find(params[:id])
   end
 
   def client_params
-    params.require(:client).permit(:email, :name, :phone, :credit_score)
+    params.require(:client).permit(:credit_score, :email, :name, :phone)
   end
 end
