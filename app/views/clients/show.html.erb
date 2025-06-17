@@ -1,0 +1,19 @@
+<h1><%= @client.name %></h1>
+
+<p>
+  <strong>Email</strong>
+  <%= @client.email %>
+</p>
+
+<p>
+  <strong>Phone</strong>
+  <%= display_or_na(@client.phone) %>
+</p>
+
+<p>
+  <strong>Credit Score</strong>
+  <%= display_or_na(@client.credit_score) %>
+</p>
+
+<p><%= link_to "Edit #{@client.name}", edit_client_path(@client) %></p>
+<p><%= link_to 'Back to Clients', clients_path %></p>

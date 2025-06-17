@@ -1,0 +1,29 @@
+<h1>Clients</h1>
+<%= link_to 'New Client', new_client_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Credit Score</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clients.each do |client| %>
+      <tr>
+        <td><%= link_to client.name, client %></td>
+        <td><%= client.email %></td>
+        <td><%= display_or_na(client.phone) %></td>
+        <td><%= display_or_na(client.credit_score) %></td>
+        <td>
+          <%= link_to 'Edit', edit_client_path(client) %>
+          <%= link_to 'Delete', client, method: :delete, data: {confirm: 'Are you sure?'} %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
