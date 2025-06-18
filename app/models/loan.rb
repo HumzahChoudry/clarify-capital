@@ -1,3 +1,4 @@
+# app/models/loan.rb
 class Loan < ApplicationRecord
   belongs_to :client
   belongs_to :lender
@@ -27,9 +28,11 @@ class Loan < ApplicationRecord
   end
 
   def client_meets_credit_score
-    return if client.nil? || lender.nil? || client.credit_score.nil?
-
-    if client.credit_score < lender.minimum_credit_score
+    if client.nil? || lender.nil?
+      return
+    elsif client.credit_score.nil?
+      errors.add(:client, "must have a credit score to qualify for a loan")
+    elsif client.credit_score < lender.minimum_credit_score
       errors.add(:client, "does not meet the lender’s minimum credit score of #{lender.minimum_credit_score}")
     end
   end
