@@ -1,4 +1,4 @@
-  <% if lender.errors.any? %>
+  <% if @lender.errors.any? %>
     <div class="flash alert">
       <h4>
         <%= pluralize(lender.errors.count, "error") %> 
