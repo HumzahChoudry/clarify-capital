@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1 class="page-title">Loans</h1>
+  <div class="page-actions">
+    <%= link_to 'Create New Loan', new_loan_path, class: 'btn-primary' %>
+  </div>
+</div>
+
+<%= render "shared/loan_filter_form", 
+      search_path: loans_path, 
+      selected_status: params[:status], 
+      result_count: @loans_count %>
+
+<table class="table-cards">
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @loans.each do |loan| %>
+      <tr>
+        <td data-label="Client"><%= link_to loan.client.name, client_path(loan.client) %></td>
+        <td data-label="Amount"><%= number_to_currency(loan.amount) %></td>
+        <td data-label="Status">
+          <span class="status-badge status-<%= loan.status.downcase %>">
+            <%= loan.status.titleize %>
+          </span>
+        </td>
+        <td data-label="Created"><%= loan.created_at.strftime("%b %d, %Y") %></td>
+        <td data-label="Actions">
+          <%= link_to "Edit", edit_loan_path(loan), class: "btn-secondary" %>
+          <%= link_to 'Delete', loan, method: :delete, class: "btn-secondary", data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <%= pagy_nav(@pagy).html_safe %>
+</div>

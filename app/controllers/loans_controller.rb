@@ -3,6 +3,13 @@ class LoansController < ApplicationController
   before_action :set_parent_entities, only: %i[new create edit update]
   before_action :filter_loan_candidates, only: %i[new edit]
 
+  def index 
+    @status = params[:status]
+    loans = @status.present? ? Loan.where(status: @status) : Loan.all
+    @loans_count = loans.count
+    @pagy, @loans = pagy(loans.includes(:client).order(created_at: :desc), items: 20)
+  end
+
   def new
     @loan ||= Loan.new
     @loan.client_id ||= @client&.id

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     end
   end
   resources :lenders
-  resources :loans, only: [:new, :create, :edit, :update]
+  resources :loans, only: [:index, :new, :create, :edit, :update]
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
