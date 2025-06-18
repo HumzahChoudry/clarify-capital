@@ -34,7 +34,6 @@
         <td data-label="Created"><%= loan.created_at.strftime("%b %d, %Y") %></td>
         <td data-label="Actions">
           <%= link_to "Edit", edit_loan_path(loan), class: "btn-secondary" %>
-          <%= link_to 'Delete', loan, method: :delete, class: "btn-secondary", data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>
