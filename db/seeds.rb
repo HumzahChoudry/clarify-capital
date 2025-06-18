@@ -7,7 +7,7 @@ Client.destroy_all
 Lender.destroy_all
 
 # Create Clients
-clients = 10.times.map do
+clients = 30.times.map do
   Client.create!(
     name: Faker::Name.name,
     email: Faker::Internet.unique.email,
@@ -17,7 +17,7 @@ clients = 10.times.map do
 end
 
 # Create Lenders
-lenders = 5.times.map do
+lenders = 10.times.map do
   min_amount = rand(1_000..5_000)
   max_amount = min_amount + rand(5_000..20_000)
   Lender.create!(
@@ -30,7 +30,7 @@ lenders = 5.times.map do
 end
 
 # Create Loans
-10.times do
+20.times do
   client = clients.sample
   lender = lenders.select { |l| client.credit_score && client.credit_score >= l.minimum_credit_score }.sample
 
