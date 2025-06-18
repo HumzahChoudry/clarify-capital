@@ -1,0 +1,18 @@
+<div class="search-container">
+  <h3>Filter By Status</h3>
+  <%= form_with url: search_path, method: :get, local: true, class: "search-form" do |form| %>
+    <div class="search-input-group">
+      <%= form.select :status, 
+          options_for_select([["All statuses", ""], ["Approved", "approved"], ["Pending", "pending"], ["Rejected", "rejected"]], selected_status),
+          {},
+          class: "search-input" %>
+      <%= form.submit "Filter", class: "btn-secondary" %>
+    </div>
+  <% end %>
+
+  <% if result_count.present? %>
+    <div class="search-results-count">
+      <%= pluralize(result_count, "loan") %> found
+    </div>
+  <% end %>
+</div>

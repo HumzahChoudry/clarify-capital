@@ -1,0 +1,110 @@
+<%= form_with model: loan, local: true do |f| %>
+  <% if loan.errors.any? %>
+    <div class="flash alert">
+      <h4>
+        <%= pluralize(loan.errors.count, "error") %> 
+        prohibited the loan from saving: 
+      </h4>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+        <% loan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if loan.client.present? %>
+    <%= f.hidden_field :client_id %>
+    <div class="client-info-card mb-4">
+      <h3>Selected Client</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Name:</strong>
+          <span><%= loan.client.name %></span>
+        </div>
+        <div class="info-item">
+          <strong>Email:</strong>
+          <span><%= loan.client.email %></span>
+        </div>
+        <div class="info-item">
+          <strong>Credit Score:</strong>
+          <span class="credit-score"><%= display_or_na(loan.client.credit_score) %></span>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="form-group">
+      <%= f.label :client_id, "Client", class: "form-label" %>
+      <%= f.collection_select :client_id, @eligible_clients, :id, :name, 
+          { prompt: "Select a client..." }, 
+          { class: "form-input", required: true } %>
+    </div>
+  <% end %>
+
+  <% if loan.lender.present? %>
+    <%= f.hidden_field :lender_id %>
+    <div class="client-info-card mb-4">
+      <h3>Selected Lender</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Name:</strong>
+          <span><%= loan.lender.name %></span>
+        </div>
+        <div class="info-item">
+          <strong>Interest Rate:</strong>
+          <span class="credit-score"><%= display_percentage_or_na(loan.lender.interest_rate) %></span>
+        </div>
+        <div class="info-item">
+          <strong>Loan Range:</strong>
+          <span>
+            <%= display_currency_or_na(loan.lender.minimum_loan_amount) %> – 
+            <%= display_currency_or_na(loan.lender.maximum_loan_amount) %>
+          </span>
+        </div>
+        <div class="info-item">
+          <strong>Min Credit Score:</strong>
+          <span><%= display_or_na(loan.lender.minimum_credit_score) %></span>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="form-group">
+      <%= f.label :lender_id, "Lender", class: "form-label" %>
+      <%= f.collection_select :lender_id, @eligible_lenders, :id, ->(l) {
+        "#{l.name} (#{l.interest_rate}% APR, min score: #{l.minimum_credit_score})"
+      }, { prompt: "Select a lender..." }, 
+         { class: "form-input", required: true } %>
+    </div>
+  <% end %>
+
+  <% min = loan.lender&.minimum_loan_amount || 1000 %>
+  <% max = loan.lender&.maximum_loan_amount || 50000 %>
+
+  <div class="form-group">
+    <%= f.label :amount, "Loan Amount", class: "form-label" %>
+    <%= f.number_field :amount, 
+        min: min, 
+        max: max, 
+        disabled: !loan.pending?, 
+        class: "form-input",
+        placeholder: "Enter loan amount..." %>
+
+    <% if loan.lender.present? && (loan.new_record? || loan.pending?) %>
+      <div class="flash notice" style="margin-top: 0.5rem; padding: 0.75rem;">
+        <strong>Allowed range for <%= loan.lender.name %>:</strong> 
+        <%= number_to_currency(min) %> – <%= number_to_currency(max) %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status, class: "form-label" %>
+    <%= f.select :status, 
+        Loan.statuses.keys.map { |s| [s.titleize, s] }, 
+        { prompt: "Select status..." },
+        { class: "form-input" } %>
+  </div>
+
+  <div class="form-actions mt-4">
+    <%= f.submit class: "btn-primary" %>
+<% end %>

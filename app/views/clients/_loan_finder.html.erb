@@ -1,0 +1,12 @@
+<div class="loan-finder-section">
+  <h2>Find Best Loan</h2>
+  <%= form_with url: create_best_loan_client_path(@client), method: :post, local: true, class: "loan-finder-form" do |f| %>
+    <div class="form-group">
+      <%= f.label :amount, "Desired Loan Amount", class: "form-label" %>
+      <%= f.number_field :amount, required: true, class: "form-input", placeholder: "Enter amount..." %>
+    </div>
+    <div class="form-actions">
+      <%= f.submit "Create Best Loan", class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>

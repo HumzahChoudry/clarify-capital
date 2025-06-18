@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h1 class="page-title"><%= @client.name %></h1>
+  <div class="page-actions">
+    <%= link_to "Edit Client", edit_client_path(@client), class: "btn-primary" %>
+    <%= link_to "Create Loan", new_loan_path(client_id: @client.id), class: "btn-primary" %>
+  </div>
+</div>
+
+<%= render "info_card" %>
+
+<%= render "loans" %>
+
+<%= render "loan_finder" %>
+
+

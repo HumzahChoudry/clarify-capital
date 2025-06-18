@@ -1,0 +1,50 @@
+require:
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  Exclude:
+    - 'db/schema.rb'
+    - 'bin/**/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+
+Layout/LineLength:
+  Max: 100
+
+# Don't require top-level class/module documentation
+Style/Documentation:
+  Enabled: false
+
+# Don't require frozen string literal magic comments
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Enable Rails-specific cops
+Rails:
+  Enabled: true
+
+# Optional: enforce leading dots on long method chains for better readability
+Layout/DotPosition:
+  EnforcedStyle: leading
+
+# Disabled because we are not extracting all user-facing strings to locales at this stage.
+# Prioritizing clarity and speed over full I18n structure for now.
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+# Enable RSpec-specific cops for rspec-rails
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+
+# Enable RSpec-specific cops
+RSpec:
+  Enabled: true
+
+# Optional: allow longer blocks in spec files
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'

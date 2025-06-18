@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1 class="page-title"><%= @lender.name %></h1>
+  <div class="page-actions">
+    <%= link_to "Edit Lender", edit_lender_path(@lender), class: "btn-primary" %>
+    <%= link_to "Create Loan", new_loan_path(lender_id: @lender.id), class: "btn-primary" %>
+  </div>
+</div>
+
+<div class="client-info-card">
+  <h3>Lender Information</h3>
+  <div class="info-grid">
+    <div class="info-item">
+      <strong>Minimum Loan Amount:</strong>
+      <span><%= display_currency_or_na(@lender.minimum_loan_amount) %></span>
+    </div>
+    <div class="info-item">
+      <strong>Maximum Loan Amount:</strong>
+      <span><%= display_currency_or_na(@lender.maximum_loan_amount) %></span>
+    </div>
+    <div class="info-item">
+      <strong>Interest Rate:</strong>
+      <span class="<%= @lender.interest_rate ? 'credit-score' : '' %>">
+        <%= display_percentage_or_na(@lender.interest_rate) %>
+      </span>
+    </div>
+    <div class="info-item">
+      <strong>Minimum Credit Score:</strong>
+      <span><%= display_or_na(@lender.minimum_credit_score) %></span>
+    </div>
+  </div>
+</div>
+
+<%= render "loans" %>

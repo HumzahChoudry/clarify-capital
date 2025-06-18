@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1 class="page-title">Lenders</h1>
+  <div class="page-actions">
+    <%= link_to 'Create New Lender', new_lender_path, class: 'btn-primary' %>
+  </div>
+</div>
+
+<%= render "shared/search_form", 
+      search_path: lenders_path, 
+      search_placeholder: "Search by name...", 
+      result_count: @lenders_count %>
+
+<table class="table-cards">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Loan Range</th>
+      <th>Interest Rate</th>
+      <th>Min Credit Score</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lenders.each do |lender| %>
+      <%= render "index_table_row", lender: lender %>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <%= pagy_nav(@pagy).html_safe %>
+</div>

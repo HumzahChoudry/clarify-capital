@@ -1,32 +1,29 @@
-# 🚀 Clarify Capital Take-Home Assessment
+# 🚀 Clarify Capital Lender Match App
 
-Welcome! We're excited to see your skills in action. This assessment is designed to evaluate your technical expertise, code quality, and problem-solving approach. Please read the instructions carefully, and don’t hesitate to reach out with any questions.
-
----
-
-## 📝 Overview
-
-Build a simple web application to manage **Clients**, **Lenders**, and **Loans**. The goal is to demonstrate your ability to design, implement, and test a small but complete feature set.
+A full-stack Rails application to manage clients, lenders, and loans. 
 
 ---
 
 ## 🎯 Features
 
-You’ll be working with three core models:
-
 1. **Clients**
-    - Name
-    - Credit score
-    - (Add any other attributes you find useful)
+    - Create new clients via clients index page.
+    - Search clients by name or email in clients index.
+    - View clients show page (including their loans) via linked name in clients index.
+    - Create best matched loan for client via section at the bottom of their show page.
+    - Edit clients via edit button in clients index or client show page.
+    - Delete a client via delete button on client edit page.
+    - Manually create a loan for a client via button on show page.
 2. **Lenders**
-    - Name
-    - Minimum loan amount
-    - Interest rate
-    - (Add any other attributes you find useful)
+    - Create new lenders via lenders index page.
+    - Search lenders by name in lenders index.
+    - View lenders show page (including their loans) via linked name in lenders index.
+    - Edit lenders via edit button in lenders index or lender show page.
+    - Manually create a loan from a lender via button on show page.
 3. **Loans**
-    - Belongs to a Client
-    - Belongs to a Lender
-    - (Add any other attributes you find useful)
+    - Manually create a loan from loans index page.
+    - Filter loans by status on loans index page.
+    - Edit a loan via edit button on loans index page (only status may be changed).
 
 ---
 
@@ -36,7 +33,7 @@ You’ll be working with three core models:
 
 - **Ruby** (2.7+)
 - **Rails** (6.0+)
-- **SQLite3** (or your preferred database)
+- **SQLite3**
 
 ### Installation
 
@@ -55,65 +52,40 @@ You’ll be working with three core models:
     ```sh
     rails db:create
     rails db:migrate
+    rails db:seed
     ```
 
-4. **Start the server**
+4. **Running tests** 
+    ```sh
+    rails test
+    ```
+
+5. **Start the server**
     ```sh
     rails server
     ```
 
-5. **Visit** [http://localhost:3000](http://localhost:3000) in your browser.
+6. **Visit** [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🏗️ TO DO Challenges
-
-1. **Migrations:** Create the schema for the models above.
-2. **Associations:** Set up the correct relationships between models.
-3. **CRUD:** Implement models, controllers, and views for:
-    - Full CRUD for Clients
-    - Create new Lender
-    - View all Lenders
-    - Create a Loan
-4. **Validations:** Add sensible validations (e.g., credit score ranges, minimum loan amounts).
-5. **Business Logic:** Implement a `create_best_loan` function to match a Client with the *best* Lender for a Loan.
-    - Consider: Client’s credit score, Lender’s minimum credit score, loan amount, Lender’s minimum loan amount, and interest rate.
-6. **Testing:** Write a test for `create_best_loan` using any testing framework.
-
-### 🌟 Bonus (Optional)
-
-- Add filtering/searching capabilities for Clients, Lenders, or Loans.
+## 🧠 Matching Logic
+- The loan-matching logic lives in `app/services/best_loan_creator.rb`.  
+- It uses client credit score, lender minimum requirements, loan amount, and interest rate to select the best lender.
 
 ---
 
-## 💡 Expectations
-
-- **Code Quality:** Clean, maintainable, and well-documented code.
-- **Testing:** Tests for critical logic.
-- **Documentation:** Clear setup instructions and a brief explanation of your approach.
-- **Git Usage:** Commit your work incrementally with meaningful messages.
+## 📄 Design Decisions
+- Used a Rails service object (`BestLoanCreator`) to encapsulate business logic.
+- Chose to write custom CSS manually for full control over layout and styles.
 
 ---
 
-## 📬 Submission
+## 🚧 Future Improvements
+- Integrate Devise and implement separate admin, client, and lender access levels.
+- PDF uploads via ActiveStorage for client loan application documents.
+- Dashboards for all user types (admin, client, lender).
 
-1. Fork this repository or create a private repo and share access with us.
-2. Include a `README.md` with setup instructions and any notes.
-3. Submit your solution within **2 days**.
-
----
-
-## 🧐 Evaluation Criteria
-
-- Correctness and completeness
-- Code structure and readability
-- Problem-solving and design decisions
-- Testing and documentation
-- **Bonus:** Use of advanced features or best practices
-
----
-
-We look forward to seeing what you build. Good luck!
 
 ---
 

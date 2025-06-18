@@ -1,0 +1,38 @@
+<div class="loans-section">
+  <h2>Loans for <%= @client.name %></h2>
+  
+  <% if @loans.any? %>
+    <div class="loans-table">
+      <table class="table-cards">
+        <thead>
+          <tr>
+            <th>Amount</th>
+            <th>Lender</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @loans.each do |loan| %>
+            <tr>
+              <td data-label="Amount"><%= number_to_currency(loan.amount) %></td>
+              <td data-label="Lender"><%= link_to loan.lender.name, lender_path(loan.lender) %></td>
+              <td data-label="Status">
+                <span class="status-badge status-<%= loan.status.downcase %>">
+                  <%= loan.status.titleize %>
+                </span>
+              </td>
+              <td data-label="Actions">
+                <%= link_to "Edit", edit_loan_path(loan), class: "btn-secondary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <p>No loans found for this client.</p>
+    </div>
+  <% end %>
+</div>

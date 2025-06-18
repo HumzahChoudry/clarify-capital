@@ -1,0 +1,35 @@
+<%= form_with model: @client, local: true do |f| %>
+  <%= render "errors" %>
+
+  <div class="form-group">
+    <%= f.label :name, class: "form-label" %>
+    <%= f.text_field :name, class: "form-input", placeholder: "Enter client name..." %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, class: "form-label" %>
+    <%= f.email_field :email, class: "form-input", placeholder: "Enter email address..." %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :phone, class: "form-label" %>
+    <%= f.telephone_field :phone, class: "form-input", placeholder: "Enter phone number..." %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :credit_score, class: "form-label" %>
+    <%= f.number_field :credit_score, class: "form-input", placeholder: "Enter credit score (300-850)...", min: 300, max: 850 %>
+  </div>
+
+  <div class="form-actions mt-4">
+    <%= f.submit class: "btn-primary" %>
+    <%= link_to "Cancel", @client.persisted? ? client_path(@client) : clients_path, class: "btn-secondary" %>
+  </div>
+
+<% end %>
+
+<div class="form-actions mt-4">
+  <% if @client.persisted? %>
+    <%= button_to "Delete Client", client_path(@client), method: :delete, class: "btn-danger mt-3" %>
+  <% end %>
+</div>

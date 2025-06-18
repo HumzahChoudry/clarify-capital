@@ -1,0 +1,33 @@
+<%= form_with(model: lender, local: true) do |form| %>
+  <%= render "errors" %>
+
+  <div class="form-group">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, required: true, class: "form-input", placeholder: "Enter lender name..." %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :minimum_loan_amount, "Minimum Loan Amount", class: "form-label" %>
+    <%= form.number_field :minimum_loan_amount, step: 0.01, min: 0, class: "form-input", placeholder: "Enter minimum loan amount..." %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :maximum_loan_amount, "Maximum Loan Amount", class: "form-label" %>
+    <%= form.number_field :maximum_loan_amount, step: 0.01, min: 0, class: "form-input", placeholder: "Enter maximum loan amount..." %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :interest_rate, "Interest Rate (%)", class: "form-label" %>
+    <%= form.number_field :interest_rate, step: 0.01, min: 0, max: 100, class: "form-input", placeholder: "Enter interest rate (e.g., 5.25)..." %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :minimum_credit_score, "Minimum Credit Score", class: "form-label" %>
+    <%= form.number_field :minimum_credit_score, min: 300, max: 850, class: "form-input", placeholder: "Enter minimum credit score (300-850)..." %>
+  </div>
+
+  <div class="form-actions mt-4">
+    <%= form.submit class: "btn-primary" %>
+    <%= link_to "Cancel", lender.persisted? ? lender_path(lender) : lenders_path, class: "btn-secondary" %>
+  </div>
+<% end %>

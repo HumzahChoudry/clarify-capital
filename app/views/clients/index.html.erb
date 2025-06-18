@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1 class="page-title">Clients</h1>
+  <div class="page-actions">
+    <%= link_to 'Create New Client', new_client_path, class: 'btn-primary' %>
+  </div>
+</div>
+
+<%= render "shared/search_form", 
+      search_path: clients_path, 
+      search_placeholder: "Search by name or email...", 
+      result_count: @clients_count %>
+
+<table class="table-cards">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Credit Score</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clients.each do |client| %>
+      <tr>
+        <td data-label="Name"><%= link_to client.name, client %></td>
+        <td data-label="Email"><%= client.email %></td>
+        <td data-label="Phone"><%= display_or_na(client.phone) %></td>
+        <td data-label="Credit Score"><%= display_or_na(client.credit_score) %></td>
+        <td data-label="Actions">
+          <%= link_to 'Edit', edit_client_path(client), class: "btn-secondary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <%= pagy_nav(@pagy).html_safe %>
+</div>

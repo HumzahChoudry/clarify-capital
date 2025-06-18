@@ -1,0 +1,19 @@
+<div class="client-info-card">
+  <h3>Client Information</h3>
+  <div class="info-grid">
+    <div class="info-item">
+      <strong>Email:</strong>
+      <span><%= @client.email %></span>
+    </div>
+    <div class="info-item">
+      <strong>Phone:</strong>
+      <span><%= display_or_na(@client.phone) %></span>
+    </div>
+    <div class="info-item">
+      <strong>Credit Score:</strong>
+      <span class="<%= @client.credit_score ? 'credit-score' : '' %>">
+        <%= display_or_na(@client.credit_score) %>
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<tr>
+  <td data-label="Name">
+    <%= link_to display_or_na(lender.name), lender_path(lender), class: "lender-name-link" %>
+  </td>
+  <td data-label="Loan Range">
+    <div class="loan-range">
+      <span class="range-min"><%= display_currency_or_na(lender.minimum_loan_amount) %></span>
+      <span class="range-separator">–</span>
+      <span class="range-max"><%= display_currency_or_na(lender.maximum_loan_amount) %></span>
+    </div>
+  </td>
+  <td data-label="Interest Rate">
+    <span class="interest-rate"><%= display_percentage_or_na(lender.interest_rate) %></span>
+  </td>
+  <td data-label="Min Credit Score">
+    <span class="credit-score-req"><%= display_or_na(lender.minimum_credit_score) %></span>
+  </td>
+  <td data-label="Actions">
+    <div class="action-buttons">
+      <%= link_to 'Edit', edit_lender_path(lender), class: 'btn-secondary' %>
+    </div>
+  </td>
+</tr>
