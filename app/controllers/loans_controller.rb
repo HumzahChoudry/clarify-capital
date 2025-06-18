@@ -7,7 +7,7 @@ class LoansController < ApplicationController
     @status = params[:status]
     loans = @status.present? ? Loan.where(status: @status) : Loan.all
     @loans_count = loans.count
-    @pagy, @loans = pagy(loans.includes(:client).order(created_at: :desc), items: 20)
+    @pagy, @loans = pagy(loans.includes(:client, :lender).order(created_at: :desc), items: 20)
   end
 
   def new
@@ -37,6 +37,7 @@ class LoansController < ApplicationController
         render :edit, status: :unprocessable_entity
       end
     else
+      # Only allow status updates for non-pending loans
       if @loan.update(loan_params.slice(:status))
         redirect_to client_path(@loan.client_id), notice: 'Loan status updated.'
       else
@@ -52,16 +53,28 @@ class LoansController < ApplicationController
   end
 
   def set_parent_entities
-    @client = Client.find(params[:client_id]) if params[:client_id]
-    @lender = Lender.find(params[:lender_id]) if params[:lender_id]
+    @client = Client.find(params[:client_id]) if params[:client_id].present?
+    @lender = Lender.find(params[:lender_id]) if params[:lender_id].present?
   end
 
   def filter_loan_candidates
     if @client
-      credit = @client.credit_score || 300
-      @eligible_lenders = Lender.where("minimum_credit_score <= ?", credit)
+      # Handle clients without credit scores
+      credit = @client.credit_score || 0
+      @eligible_lenders = Lender.where(
+        "minimum_credit_score IS NULL OR minimum_credit_score <= ?", 
+        credit
+      )
     elsif @lender
-      @eligible_clients = Client.where("credit_score >= ?", @lender.minimum_credit_score)
+      # Handle lenders without minimum credit score requirements
+      if @lender.minimum_credit_score
+        @eligible_clients = Client.where(
+          "credit_score IS NOT NULL AND credit_score >= ?", 
+          @lender.minimum_credit_score
+        )
+      else
+        @eligible_clients = Client.all
+      end
     else
       @eligible_clients = Client.all
       @eligible_lenders = Lender.all
