@@ -7,7 +7,7 @@ class ClientsController < ApplicationController
     if params[:search].present?
       search_term = "%#{params[:search].strip}%"
       clients = clients.where(
-        "name LIKE ? OR email LIKE ?", 
+        "LOWER(name) LIKE LOWER(?) OR LOWER(email) LIKE LOWER(?)",
         search_term, 
         search_term
       )
@@ -51,7 +51,12 @@ class ClientsController < ApplicationController
 
   # POST /clients/:id/create_best_loan
   def create_best_loan
+    # Validate amount parameter
+    return redirect_to @client, alert: "Amount is required" if params[:amount].blank?
+    
     amount = params[:amount].to_f
+    return redirect_to @client, alert: "Amount must be greater than 0" if amount <= 0
+    
     result = Clients::BestLoanCreator.new(client: @client, amount: amount).call
 
     return redirect_to @client, notice: "Best loan created!" if result[:success]

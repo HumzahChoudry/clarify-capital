@@ -2,13 +2,12 @@ class LendersController < ApplicationController
   before_action :set_lender, only: %i[show edit update destroy]
 
   def index
-
     lenders = Lender.order(:name)
 
     if params[:search].present?
       search_term = "%#{params[:search].strip}%"
       lenders = lenders.where(
-        "name LIKE ?", 
+        "LOWER(name) LIKE LOWER(?)", 
         search_term
       )
     end
