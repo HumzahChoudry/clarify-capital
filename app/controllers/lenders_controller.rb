@@ -13,6 +13,7 @@ class LendersController < ApplicationController
       )
     end
     
+    @lenders_count = lenders.count
     @pagy, @lenders = pagy(lenders, items: 20)
   end
 

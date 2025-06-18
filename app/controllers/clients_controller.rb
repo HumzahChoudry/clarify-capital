@@ -13,6 +13,7 @@ class ClientsController < ApplicationController
       )
     end
     
+    @clients_count = clients.count
     @pagy, @clients = pagy(clients, items: 20)
   end
 
