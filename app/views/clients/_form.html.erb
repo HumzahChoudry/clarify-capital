@@ -27,3 +27,9 @@
   </div>
 
 <% end %>
+
+<div class="form-actions mt-4">
+  <% if @client.persisted? %>
+    <%= button_to "Delete Client", client_path(@client), method: :delete, class: "btn-danger mt-3" %>
+  <% end %>
+</div>

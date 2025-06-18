@@ -29,7 +29,7 @@
         <td data-label="Phone"><%= display_or_na(client.phone) %></td>
         <td data-label="Credit Score"><%= display_or_na(client.credit_score) %></td>
         <td data-label="Actions">
-          <%= link_to 'Delete', client, method: :delete, class: "btn-secondary", data: {confirm: 'Are you sure?'} %>
+          <%= link_to 'Edit', edit_client_path(client), class: "btn-secondary" %>
         </td>
       </tr>
     <% end %>
