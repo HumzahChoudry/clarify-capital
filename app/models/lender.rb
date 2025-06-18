@@ -20,4 +20,17 @@ class Lender < ApplicationRecord
     greater_than_or_equal_to: 300,
     less_than_or_equal_to: 850
   }, allow_nil: true
+
+  # Custom validation to ensure max >= min when both present
+  validate :maximum_loan_amount_greater_than_minimum
+
+  private
+
+  def maximum_loan_amount_greater_than_minimum
+    return if minimum_loan_amount.nil? || maximum_loan_amount.nil?
+    
+    if maximum_loan_amount < minimum_loan_amount
+      errors.add(:maximum_loan_amount, "must be greater than minimum loan amount")
+    end
+  end
 end
