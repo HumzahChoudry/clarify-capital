@@ -115,7 +115,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  min-width: 175px;
+  min-width: 210px;
   justify-content: center;
 }
 
@@ -192,29 +192,6 @@
 .app-container .btn-secondary:focus {
   color: var(--color-primary-hover);
   text-decoration: none;
-}
-
-/* Buttons */
-.app-container button,
-.app-container input[type="submit"],
-.app-container input[type="button"] {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.app-container button:hover,
-.app-container input[type="submit"]:hover,
-.app-container input[type="button"]:hover,
-.app-container button:focus,
-.app-container input[type="submit"]:focus,
-.app-container input[type="button"]:focus {
-  background-color: var(--color-primary-hover);
-  outline: none;
 }
 
 /* Form inputs */
@@ -716,4 +693,33 @@
   .pagination nav a.next {
     order: 2;
   }
+}
+
+.search-input-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+}
+
+.search-input-group .btn-secondary {
+  padding: .5rem; 
+  font-size: 1rem;
+}
+
+.search-input-group .btn-tertiary {
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.btn-tertiary:hover, .btn-tertiary:focus {
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
+  text-decoration: underline !important;
+}
+
+.search-input-group input {
+  margin: 0rem; 
 }

@@ -5,6 +5,11 @@
   </div>
 </div>
 
+<%= render "shared/search_form", 
+      search_path: clients_path, 
+      search_placeholder: "Search by name or email...", 
+      result_count: @clients.count %>
+
 <table class="table-cards">
   <thead>
     <tr>

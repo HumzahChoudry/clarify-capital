@@ -2,7 +2,18 @@ class LendersController < ApplicationController
   before_action :set_lender, only: %i[show edit update destroy]
 
   def index
-    @pagy, @lenders = pagy(Lender.all.order(:name), items: 20)
+
+    lenders = Lender.order(:name)
+
+    if params[:search].present?
+      search_term = "%#{params[:search].strip}%"
+      lenders = lenders.where(
+        "name LIKE ?", 
+        search_term
+      )
+    end
+    
+    @pagy, @lenders = pagy(lenders, items: 20)
   end
 
   def show

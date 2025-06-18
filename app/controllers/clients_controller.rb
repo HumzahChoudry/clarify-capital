@@ -2,7 +2,18 @@ class ClientsController < ApplicationController
   before_action :set_client, only: %i[show edit update destroy create_best_loan]
 
   def index
-    @pagy, @clients = pagy(Client.order(:name), items: 20)
+    clients = Client.order(:name)
+    
+    if params[:search].present?
+      search_term = "%#{params[:search].strip}%"
+      clients = clients.where(
+        "name LIKE ? OR email LIKE ?", 
+        search_term, 
+        search_term
+      )
+    end
+    
+    @pagy, @clients = pagy(clients, items: 20)
   end
 
   def show
