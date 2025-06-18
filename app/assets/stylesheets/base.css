@@ -1,6 +1,8 @@
 .app-container {
   --color-primary: #2563eb; 
   --color-primary-hover: #1d4ed8; 
+  --color-danger: #dc2626; 
+  --color-danger-hover: #b91c1c;
   --color-success-bg: #d1fae5; 
   --color-success-text: #065f46; 
   --color-error-bg: #fee2e2;
@@ -99,6 +101,28 @@
 .page-actions {
   display: flex;
   gap: 0.75rem;
+}
+
+.btn-danger {
+  background-color: var(--color-danger); 
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 210px;
+  justify-content: center;
+}
+
+.btn-danger:hover {
+  background-color: var(--color-danger-hover);
 }
 
 .btn-primary {
